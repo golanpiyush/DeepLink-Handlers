@@ -8,184 +8,154 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background: #0f0f14;
-    color: white;
-    overflow-x: hidden;
+    font-family:'Inter',sans-serif;
+    background:#0f0f14;
+    color:white;
+    overflow-x:hidden;
 }
 
-/* ===== Animated Gradient Background ===== */
+/* Animated Background */
 body::before {
-    content: "";
-    position: fixed;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at 30% 30%, #6a11cb, transparent),
-                radial-gradient(circle at 70% 70%, #2575fc, transparent),
-                radial-gradient(circle at 50% 50%, #ff0080, transparent);
-    animation: bgMove 15s infinite alternate;
-    z-index: -1;
-    opacity: 0.3;
+    content:"";
+    position:fixed;
+    width:200%;
+    height:200%;
+    background:
+        radial-gradient(circle at 30% 30%, #6a11cb, transparent),
+        radial-gradient(circle at 70% 70%, #2575fc, transparent),
+        radial-gradient(circle at 50% 50%, #ff0080, transparent);
+    animation:bgMove 15s infinite alternate;
+    z-index:-1;
+    opacity:0.3;
 }
-
 @keyframes bgMove {
-    0% { transform: translate(-10%, -10%); }
-    100% { transform: translate(10%, 10%); }
+    0%{ transform:translate(-10%,-10%); }
+    100%{ transform:translate(10%,10%); }
 }
 
-/* ===== Navbar ===== */
+/* Navbar */
 .navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    backdrop-filter: blur(20px);
-    background: rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
+    position:fixed;
+    top:0;
+    width:100%;
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,0.05);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    padding:1rem 2rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:1000;
 }
-
-.navbar h2 {
-    font-weight: 700;
-}
-
 .nav-links a {
-    margin-left: 2rem;
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    opacity: 0.8;
-    transition: 0.3s;
+    margin-left:2rem;
+    text-decoration:none;
+    color:white;
+    opacity:0.8;
+    transition:0.3s;
 }
+.nav-links a:hover { opacity:1; }
 
-.nav-links a:hover {
-    opacity: 1;
-}
-
-/* ===== Sections ===== */
+/* Sections */
 .section {
-    padding: 120px 10% 100px;
-    text-align: center;
+    padding:120px 10% 100px;
+    text-align:center;
 }
-
 .hero h1 {
-    font-size: 3.5rem;
-    font-weight: 800;
+    font-size:3.5rem;
+    font-weight:800;
 }
-
 .hero p {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    opacity: 0.8;
+    margin-top:1rem;
+    font-size:1.2rem;
+    opacity:0.8;
 }
 
-/* ===== Buttons ===== */
+/* Buttons */
 .btn {
-    display: inline-block;
-    padding: 1rem 2.5rem;
-    margin: 1rem;
-    border-radius: 50px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: 0.3s;
+    display:inline-block;
+    padding:1rem 2.5rem;
+    margin:1rem;
+    border-radius:50px;
+    font-weight:600;
+    text-decoration:none;
+    transition:0.3s;
+    cursor:pointer;
 }
-
 .btn-primary {
-    background: linear-gradient(45deg, #6a11cb, #2575fc);
-    box-shadow: 0 0 20px #6a11cb;
-    color: white;
+    background:linear-gradient(45deg,#6a11cb,#2575fc);
+    box-shadow:0 0 20px #6a11cb;
+    color:white;
 }
-
 .btn-primary:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 0 40px #6a11cb;
+    transform:translateY(-4px);
+    box-shadow:0 0 40px #6a11cb;
 }
-
 .btn-outline {
-    border: 2px solid white;
-    color: white;
+    border:2px solid white;
+    color:white;
 }
-
 .btn-outline:hover {
-    background: white;
-    color: #111;
+    background:white;
+    color:#111;
 }
 
-/* ===== Cards ===== */
+/* Cards */
 .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:2rem;
+    margin-top:3rem;
 }
-
 .card {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(20px);
-    padding: 2rem;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: 0.4s ease;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(20px);
+    padding:2rem;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.1);
+    transition:0.4s;
 }
-
 .card:hover {
-    transform: translateY(-10px);
-    background: rgba(255,255,255,0.1);
+    transform:translateY(-10px);
+    background:rgba(255,255,255,0.1);
 }
 
-/* ===== Warning Box ===== */
+/* Warning */
 .warning {
-    background: rgba(255,0,0,0.1);
-    border: 1px solid rgba(255,0,0,0.4);
-    padding: 1.5rem;
-    border-radius: 15px;
-    margin-top: 2rem;
+    background:rgba(255,0,0,0.1);
+    border:1px solid rgba(255,0,0,0.4);
+    padding:1.5rem;
+    border-radius:15px;
+    margin-top:2rem;
 }
 
-/* ===== Scroll Animation ===== */
+/* Fade animation */
 .fade {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: 1s ease;
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s ease;
 }
-
 .fade.show {
-    opacity: 1;
-    transform: translateY(0);
+    opacity:1;
+    transform:translateY(0);
 }
 
-/* ===== Footer ===== */
+/* Footer */
 .footer {
-    padding: 3rem;
-    text-align: center;
-    opacity: 0.6;
+    padding:3rem;
+    text-align:center;
+    opacity:0.6;
 }
 
-/* ===== Responsive ===== */
+/* Responsive */
 @media(max-width:768px){
-    .hero h1{
-        font-size:2.5rem;
-    }
-    .navbar{
-        flex-direction: column;
-    }
-    .nav-links{
-        margin-top:1rem;
-    }
+    .hero h1{ font-size:2.5rem; }
+    .navbar{ flex-direction:column; }
+    .nav-links{ margin-top:1rem; }
 }
 </style>
 </head>
@@ -208,8 +178,10 @@ body::before {
     <h1>A Beautiful Music Streaming & Social Experience for Android</h1>
     <p>Stream. Share. Connect. Experience music together.</p>
 
-    <a href="#" class="btn btn-primary">Download APK</a>
+    <a href="#" id="downloadBtn" class="btn btn-primary">Checking latest version...</a>
     <a href="https://github.com/golanpiyush/vibeflow" class="btn btn-outline">View Source</a>
+
+    <p id="versionInfo" style="margin-top:1rem; opacity:0.7;"></p>
 
     <div class="warning">
         ⚠️ Only download VibeFlow from official releases in this repository.
@@ -220,23 +192,19 @@ body::before {
 <!-- FEATURES -->
 <section id="features" class="section fade">
     <h2>✨ Features</h2>
-
     <div class="grid">
         <div class="card">
             <h3>🎵 High Quality Playback</h3>
             <p>Adaptive bitrate, offline mode, gapless playback, crossfade & sleep timer.</p>
         </div>
-
         <div class="card">
             <h3>👥 Social Listening</h3>
             <p>Real-time activity, follow system & collaborative playlists.</p>
         </div>
-
         <div class="card">
             <h3>🎤 Synchronized Lyrics</h3>
             <p>Karaoke-style word-by-word lyric highlighting (LRC & TTML).</p>
         </div>
-
         <div class="card">
             <h3>🎨 Custom Themes</h3>
             <p>Material You, Pure Black AMOLED & Custom Light themes.</p>
@@ -244,37 +212,20 @@ body::before {
     </div>
 </section>
 
-<!-- TECH STACK -->
+<!-- TECH -->
 <section id="tech" class="section fade">
     <h2>🛠 Tech Stack</h2>
-
     <div class="grid">
-        <div class="card">
-            <h3>Flutter 3+</h3>
-            <p>Beautiful native UI performance.</p>
-        </div>
-
-        <div class="card">
-            <h3>Supabase</h3>
-            <p>PostgreSQL, Auth & Cloud Storage backend.</p>
-        </div>
-
-        <div class="card">
-            <h3>Riverpod</h3>
-            <p>Scalable state management.</p>
-        </div>
-
-        <div class="card">
-            <h3>Just Audio</h3>
-            <p>Professional audio engine.</p>
-        </div>
+        <div class="card"><h3>Flutter 3+</h3><p>Beautiful native UI performance.</p></div>
+        <div class="card"><h3>Supabase</h3><p>PostgreSQL, Auth & Cloud Storage backend.</p></div>
+        <div class="card"><h3>Riverpod</h3><p>Scalable state management.</p></div>
+        <div class="card"><h3>Just Audio</h3><p>Professional audio engine.</p></div>
     </div>
 </section>
 
 <!-- ROADMAP -->
 <section id="roadmap" class="section fade">
     <h2>🚀 Roadmap</h2>
-
     <div class="grid">
         <div class="card">iOS Support</div>
         <div class="card">Desktop Clients</div>
@@ -289,6 +240,50 @@ body::before {
 </div>
 
 <script>
+const repoOwner = "golanpiyush";
+const repoName = "vibeflow";
+
+const downloadBtn = document.getElementById("downloadBtn");
+const versionInfo = document.getElementById("versionInfo");
+
+async function fetchLatestRelease() {
+    try {
+        const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/releases/latest`);
+        const data = await response.json();
+
+        const version = data.tag_name;
+        const assets = data.assets;
+
+        const apk = assets.find(a =>
+            a.name.includes("arm64-v8a") && a.name.endsWith(".apk")
+        );
+
+        if (!apk) {
+            downloadBtn.innerText = "arm64-v8a not found";
+            downloadBtn.style.background = "#555";
+            return;
+        }
+
+        downloadBtn.innerText = `Download ${version}`;
+        downloadBtn.dataset.url = apk.browser_download_url;
+        versionInfo.innerText = `Latest Version: ${version} • ${apk.download_count} downloads`;
+
+    } catch (e) {
+        downloadBtn.innerText = "Unable to fetch version";
+        versionInfo.innerText = "Please try again later.";
+    }
+}
+
+downloadBtn.addEventListener("click", function(e){
+    e.preventDefault();
+    const url = downloadBtn.dataset.url;
+    if(!url) return;
+
+    if(confirm("Download latest VibeFlow (arm64-v8a)?")){
+        window.location.href = url;
+    }
+});
+
 const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
         if(entry.isIntersecting){
@@ -297,6 +292,8 @@ const observer = new IntersectionObserver(entries => {
     });
 });
 document.querySelectorAll(".fade").forEach(el => observer.observe(el));
+
+fetchLatestRelease();
 </script>
 
 </body>
