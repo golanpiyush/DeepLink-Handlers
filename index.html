@@ -1,141 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibeFlow - Music Sharing</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 2rem;
-        }
-        
-        .container {
-            max-width: 600px;
-        }
-        
-        .logo {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-        
-        p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-        
-        .features {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            margin-top: 2rem;
-        }
-        
-        .feature {
-            margin: 1.5rem 0;
-        }
-        
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .feature-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-        
-        .cta {
-            margin-top: 3rem;
-        }
-        
-        .button {
-            display: inline-block;
-            padding: 1rem 3rem;
-            background: white;
-            color: #667eea;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .footer {
-            margin-top: 3rem;
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VibeFlow – Music Streaming & Social Experience</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #0f0f14;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* ===== Animated Gradient Background ===== */
+body::before {
+    content: "";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 30%, #6a11cb, transparent),
+                radial-gradient(circle at 70% 70%, #2575fc, transparent),
+                radial-gradient(circle at 50% 50%, #ff0080, transparent);
+    animation: bgMove 15s infinite alternate;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+@keyframes bgMove {
+    0% { transform: translate(-10%, -10%); }
+    100% { transform: translate(10%, 10%); }
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+.navbar h2 {
+    font-weight: 700;
+}
+
+.nav-links a {
+    margin-left: 2rem;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+}
+
+/* ===== Sections ===== */
+.section {
+    padding: 120px 10% 100px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+}
+
+.hero p {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* ===== Buttons ===== */
+.btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    margin: 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    box-shadow: 0 0 20px #6a11cb;
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 40px #6a11cb;
+}
+
+.btn-outline {
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-outline:hover {
+    background: white;
+    color: #111;
+}
+
+/* ===== Cards ===== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    background: rgba(255,255,255,0.1);
+}
+
+/* ===== Warning Box ===== */
+.warning {
+    background: rgba(255,0,0,0.1);
+    border: 1px solid rgba(255,0,0,0.4);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-top: 2rem;
+}
+
+/* ===== Scroll Animation ===== */
+.fade {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 1s ease;
+}
+
+.fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== Footer ===== */
+.footer {
+    padding: 3rem;
+    text-align: center;
+    opacity: 0.6;
+}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+    .hero h1{
+        font-size:2.5rem;
+    }
+    .navbar{
+        flex-direction: column;
+    }
+    .nav-links{
+        margin-top:1rem;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="logo">🎵</div>
-        <h1>VibeFlow</h1>
-        <p>Share your favorite songs with friends instantly</p>
-        
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">🚀</div>
-                <div class="feature-title">Quick Sharing</div>
-                <div>Share any song with a simple link</div>
-            </div>
-            
-            <div class="feature">
-                <div class="feature-icon">🔗</div>
-                <div class="feature-title">Smart Deep Links</div>
-                <div>Links open directly in the app</div>
-            </div>
-            
-            <div class="feature">
-                <div class="feature-icon">✨</div>
-                <div class="feature-title">Seamless Experience</div>
-                <div>No registration needed to receive links</div>
-            </div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>🎧 VibeFlow</h2>
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#tech">Tech</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="https://github.com/golanpiyush/vibeflow">GitHub</a>
+    </div>
+</div>
+
+<!-- HERO -->
+<section class="section hero fade">
+    <h1>A Beautiful Music Streaming & Social Experience for Android</h1>
+    <p>Stream. Share. Connect. Experience music together.</p>
+
+    <a href="#" class="btn btn-primary">Download APK</a>
+    <a href="https://github.com/golanpiyush/vibeflow" class="btn btn-outline">View Source</a>
+
+    <div class="warning">
+        ⚠️ Only download VibeFlow from official releases in this repository.
+        Unofficial versions may be harmful.
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="section fade">
+    <h2>✨ Features</h2>
+
+    <div class="grid">
+        <div class="card">
+            <h3>🎵 High Quality Playback</h3>
+            <p>Adaptive bitrate, offline mode, gapless playback, crossfade & sleep timer.</p>
         </div>
-        
-        <div class="cta">
-            <a href="#" class="button">Download VibeFlow</a>
+
+        <div class="card">
+            <h3>👥 Social Listening</h3>
+            <p>Real-time activity, follow system & collaborative playlists.</p>
         </div>
-        
-        <div class="footer">
-            <p>© 2025 VibeFlow. All rights reserved.</p>
+
+        <div class="card">
+            <h3>🎤 Synchronized Lyrics</h3>
+            <p>Karaoke-style word-by-word lyric highlighting (LRC & TTML).</p>
+        </div>
+
+        <div class="card">
+            <h3>🎨 Custom Themes</h3>
+            <p>Material You, Pure Black AMOLED & Custom Light themes.</p>
         </div>
     </div>
+</section>
+
+<!-- TECH STACK -->
+<section id="tech" class="section fade">
+    <h2>🛠 Tech Stack</h2>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Flutter 3+</h3>
+            <p>Beautiful native UI performance.</p>
+        </div>
+
+        <div class="card">
+            <h3>Supabase</h3>
+            <p>PostgreSQL, Auth & Cloud Storage backend.</p>
+        </div>
+
+        <div class="card">
+            <h3>Riverpod</h3>
+            <p>Scalable state management.</p>
+        </div>
+
+        <div class="card">
+            <h3>Just Audio</h3>
+            <p>Professional audio engine.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap" class="section fade">
+    <h2>🚀 Roadmap</h2>
+
+    <div class="grid">
+        <div class="card">iOS Support</div>
+        <div class="card">Desktop Clients</div>
+        <div class="card">Smart Recommendations</div>
+        <div class="card">Podcast & Radio</div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+    © 2026 VibeFlow • GPL-3.0 Licensed • Built with ❤️
+</div>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add("show");
+        }
+    });
+});
+document.querySelectorAll(".fade").forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
