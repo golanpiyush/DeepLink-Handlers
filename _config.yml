@@ -1,0 +1,13 @@
+# GitHub Pages Configuration for VibeFlow Deep Links
+
+# Enable proper routing for dynamic URLs
+include:
+  - DeepLink-Handlers
+  - s
+
+# Don't process these as Jekyll
+exclude:
+  - README.md
+  - node_modules
+  - .git
+  - .gitignore
