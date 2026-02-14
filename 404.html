@@ -7,28 +7,78 @@
         body {
             font-family: system-ui;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            text-align: center;
+            padding: 20px;
         }
         .loader { 
-            font-size: 3rem; 
-            animation: spin 2s linear infinite;
+            font-size: 4rem; 
+            animation: bounce 1s infinite;
+            margin-bottom: 20px;
         }
-        @keyframes spin { to { transform: rotate(360deg); }}
+        @keyframes bounce { 
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        h1 { margin: 10px 0; }
+        p { opacity: 0.9; }
     </style>
 </head>
 <body>
     <div class="loader">🎵</div>
+    <h1>Opening in VibeFlow...</h1>
+    <p id="song-info"></p>
+    
     <script>
-        // The Flutter app_links package will intercept this URL
-        // We just need to ensure the URL stays the same
-        setTimeout(() => {
-            window.location.href = window.location.href;
-        }, 100);
+        function parseUrl() {
+            const path = window.location.pathname;
+            const params = new URLSearchParams(window.location.search);
+            
+            // Extract video ID from /DeepLink-Handlers/song/VIDEO_ID or /song/VIDEO_ID
+            const parts = path.split('/').filter(p => p);
+            const songIndex = parts.indexOf('song');
+            
+            if (songIndex === -1 || songIndex >= parts.length - 1) {
+                document.getElementById('song-info').textContent = 'Invalid link';
+                return null;
+            }
+            
+            const videoId = parts[songIndex + 1];
+            return {
+                videoId: videoId,
+                title: params.get('title') || '',
+                artist: params.get('artist') || '',
+                thumb: params.get('thumb') || '',
+                duration: params.get('duration') || ''
+            };
+        }
+        
+        const song = parseUrl();
+        
+        if (song) {
+            // Show song info
+            if (song.title && song.artist) {
+                document.getElementById('song-info').textContent = `${song.title} - ${song.artist}`;
+            }
+            
+            // Build the vibeflow:// deep link
+            const deepLink = `vibeflow://song/${song.videoId}?title=${encodeURIComponent(song.title)}&artist=${encodeURIComponent(song.artist)}&thumb=${encodeURIComponent(song.thumb)}&duration=${encodeURIComponent(song.duration)}`;
+            
+            // Try to open the app immediately
+            window.location.href = deepLink;
+            
+            // Show fallback message after 2 seconds
+            setTimeout(() => {
+                document.querySelector('h1').textContent = 'App not installed?';
+                document.querySelector('p').innerHTML = 'Make sure VibeFlow is installed on your device';
+            }, 2000);
+        }
     </script>
 </body>
 </html>
