@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting...</title>
+    <script>
+        // Redirect to song handler if path contains 'song'
+        if (window.location.pathname.includes('/song/')) {
+            const newPath = window.location.pathname.replace(/.*\/vibeflow/, '/vibeflow');
+            window.location.href = newPath + window.location.search;
+        } else {
+            window.location.href = '/vibeflow/';
+        }
+    </script>
+</head>
+<body><p>Redirecting...</p></body>
+</html>
