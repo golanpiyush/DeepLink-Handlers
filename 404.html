@@ -1,16 +1,310 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Redirecting...</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opening VibeFlow...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 400px;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        p {
+            opacity: 0.9;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .song-info {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-top: 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .song-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .song-artist {
+            opacity: 0.85;
+            font-size: 1rem;
+        }
+        
+        .error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid rgba(239, 68, 68, 0.5);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 1rem 2.5rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .debug {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            text-align: left;
+            display: none;
+        }
+        
+        .debug code {
+            display: block;
+            margin: 0.5rem 0;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🎵</div>
+        <h1 id="status">Opening in VibeFlow...</h1>
+        <div class="spinner" id="spinner"></div>
+        <p id="message">Preparing your music...</p>
+        
+        <div id="songInfo" class="song-info" style="display: none;">
+            <div class="song-title" id="songTitle"></div>
+            <div class="song-artist" id="songArtist"></div>
+        </div>
+        
+        <div id="error" class="error" style="display: none;">
+            <strong>⚠️ Something went wrong</strong>
+            <p id="errorMessage" style="margin-top: 0.5rem;"></p>
+        </div>
+        
+        <div id="debug" class="debug">
+            <strong>Debug Info:</strong>
+            <code id="debugInfo"></code>
+        </div>
+    </div>
+
     <script>
-        // Redirect to song handler if path contains 'song'
-        if (window.location.pathname.includes('/song/')) {
-            const newPath = window.location.pathname.replace(/.*\/vibeflow/, '/vibeflow');
-            window.location.href = newPath + window.location.search;
-        } else {
-            window.location.href = '/vibeflow/';
+        // Enable debug mode with ?debug in URL
+        const DEBUG = window.location.search.includes('debug');
+        
+        function log(message, data) {
+            console.log(message, data || '');
+            if (DEBUG) {
+                const debugEl = document.getElementById('debug');
+                const debugInfo = document.getElementById('debugInfo');
+                debugEl.style.display = 'block';
+                debugInfo.innerHTML += `${message}: ${JSON.stringify(data)}<br>`;
+            }
+        }
+        
+        // Parse the URL to extract song information
+        function parseSongUrl() {
+            const fullPath = window.location.pathname;
+            const params = new URLSearchParams(window.location.search);
+            
+            log('Full URL', window.location.href);
+            log('Path', fullPath);
+            log('Query params', Object.fromEntries(params));
+            
+            // Handle different URL patterns:
+            // 1. /DeepLink-Handlers/song/VIDEO_ID
+            // 2. /song/VIDEO_ID
+            // 3. /s/SHORT_CODE (short links)
+            
+            const pathParts = fullPath.split('/').filter(p => p);
+            log('Path parts', pathParts);
+            
+            let videoId = null;
+            
+            // Check for /DeepLink-Handlers/song/VIDEO_ID
+            if (pathParts.includes('DeepLink-Handlers') && pathParts.includes('song')) {
+                const songIndex = pathParts.indexOf('song');
+                videoId = pathParts[songIndex + 1];
+            }
+            // Check for /song/VIDEO_ID
+            else if (pathParts.includes('song')) {
+                const songIndex = pathParts.indexOf('song');
+                videoId = pathParts[songIndex + 1];
+            }
+            // Check for short link /s/CODE
+            else if (pathParts[0] === 's' && pathParts.length > 1) {
+                // Short links should redirect to themselves with .html
+                // This is handled by the actual .html files
+                log('Short link detected, should be handled by .html file');
+                return null;
+            }
+            
+            if (!videoId) {
+                log('No video ID found');
+                return null;
+            }
+            
+            log('Video ID', videoId);
+            
+            return {
+                videoId: videoId,
+                title: params.get('title') || 'Unknown Song',
+                artist: params.get('artist') || 'Unknown Artist',
+                thumb: params.get('thumb') || '',
+                duration: params.get('duration') || ''
+            };
+        }
+        
+        // Build the deep link URL
+        function buildDeepLink(songData) {
+            // Custom scheme for app
+            const deepLink = `vibeflow://song/${songData.videoId}?title=${encodeURIComponent(songData.title)}&artist=${encodeURIComponent(songData.artist)}&thumb=${encodeURIComponent(songData.thumb)}&duration=${encodeURIComponent(songData.duration)}`;
+            log('Deep link built', deepLink);
+            return deepLink;
+        }
+        
+        // Display song info
+        function displaySongInfo(songData) {
+            document.getElementById('songTitle').textContent = songData.title;
+            document.getElementById('songArtist').textContent = songData.artist;
+            document.getElementById('songInfo').style.display = 'block';
+        }
+        
+        // Show error
+        function showError(message) {
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('status').textContent = 'Unable to Open';
+            document.getElementById('message').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+            log('Error shown', message);
+        }
+        
+        // Attempt to open the app
+        function attemptAppOpen(deepLink) {
+            log('Attempting to open app');
+            
+            // Detect mobile
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            log('Is mobile', isMobile);
+            
+            if (isMobile) {
+                // Try to open the app
+                window.location.href = deepLink;
+                
+                // Fallback message after 3 seconds if app didn't open
+                setTimeout(() => {
+                    document.getElementById('status').textContent = 'App Not Installed?';
+                    document.getElementById('message').innerHTML = 
+                        'Make sure VibeFlow is installed on your device';
+                    document.getElementById('spinner').style.display = 'none';
+                    log('Fallback message shown');
+                }, 3000);
+            } else {
+                // Desktop - try to open, show message
+                window.location.href = deepLink;
+                
+                setTimeout(() => {
+                    document.getElementById('status').textContent = 'Opening VibeFlow...';
+                    document.getElementById('message').textContent = 
+                        'If nothing happens, VibeFlow may not be installed on this device.';
+                    log('Desktop message shown');
+                }, 1000);
+            }
+        }
+        
+        // Main execution
+        try {
+            log('Script started');
+            
+            const songData = parseSongUrl();
+            
+            if (!songData) {
+                showError('Invalid song link. Please check the URL and try again.');
+                log('Failed to parse song data');
+                return;
+            }
+            
+            log('Song data parsed', songData);
+            
+            // Display the song info
+            displaySongInfo(songData);
+            
+            // Build deep link
+            const deepLink = buildDeepLink(songData);
+            
+            // Attempt to open after a brief delay
+            setTimeout(() => {
+                attemptAppOpen(deepLink);
+            }, 800);
+            
+        } catch (error) {
+            console.error('❌ Error:', error);
+            log('Exception caught', error.message);
+            showError('An unexpected error occurred: ' + error.message);
         }
     </script>
-</head>
-<body><p>Redirecting...</p></body>
+</body>
 </html>
